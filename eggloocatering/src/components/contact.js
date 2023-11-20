@@ -1,11 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
+import { Button, Modal } from 'antd';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Contact() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const form = useRef();
 
   const sendEmail = (e) => {
@@ -19,6 +21,16 @@ export default function Contact() {
       });
 
       e.target.reset();
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -56,6 +68,7 @@ export default function Contact() {
                 name="first-name"
                 id="first-name"
                 autoComplete="given-name"
+                required
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -69,6 +82,7 @@ export default function Contact() {
                 type="text"
                 name="last-name"
                 id="last-name"
+                required
                 autoComplete="family-name"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -83,6 +97,7 @@ export default function Contact() {
                 type="email"
                 name="email"
                 id="email"
+                required
                 autoComplete="email"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -98,6 +113,7 @@ export default function Contact() {
                 name="phone-number"
                 id="phone-number"
                 autoComplete="tel"
+                required
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -111,6 +127,7 @@ export default function Contact() {
                 type="text"
                 name="occasion"
                 id="occasion"
+                required
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -124,6 +141,7 @@ export default function Contact() {
                 type="text"
                 name="location"
                 id="location"
+                required
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -137,6 +155,7 @@ export default function Contact() {
                 type="text"
                 name="date"
                 id="date"
+                required
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 placeholder='MM/DD/YYYY'
               />
@@ -152,6 +171,7 @@ export default function Contact() {
                 name="guests"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 defaultValue="1-50"
+                required
               >
                 <option>1-50</option>
                 <option>51-100</option>
@@ -169,6 +189,7 @@ export default function Contact() {
                 name="message"
                 id="message"
                 rows={4}
+                required
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 defaultValue={''}
               />
@@ -179,11 +200,16 @@ export default function Contact() {
           <button
             type="submit"
             className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={showModal}
           >
             Let's talk
           </button>
         </div>
       </form>
+      <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+        <p>Your inquiry has been submitted, we will get back to you soon</p>
+        <p>Thanks!</p>
+      </Modal>
     </div>
   )
 }
