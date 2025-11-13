@@ -1,6 +1,5 @@
-import React, { useState, useRef } from 'react';
-import emailjs from '@emailjs/browser';
-import { Button, Modal } from 'antd';
+import React, { useState } from 'react';
+import { Modal } from 'antd';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -8,19 +7,39 @@ function classNames(...classes) {
 
 export default function Contact() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const form = useRef();
 
   const sendEmail = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, form.current, process.env.REACT_APP_EMAILJS_PUBLIC_KEY)
-      .then((result) => {
-          console.log(result.text);
-      }, (error) => {
-          console.log(error.text);
-      });
+    const formData = new FormData(e.target);
+    const firstName = formData.get('first-name');
+    const lastName = formData.get('last-name');
+    const email = formData.get('email');
+    const phone = formData.get('phone-number');
+    const occasion = formData.get('occasion');
+    const location = formData.get('location');
+    const date = formData.get('date');
+    const guests = formData.get('guests');
+    const message = formData.get('message');
 
-      e.target.reset();
+    const subject = `Eggloo Catering Inquiry - ${occasion}`;
+    const body = `
+Name: ${firstName} ${lastName}
+Email: ${email}
+Phone: ${phone}
+Occasion: ${occasion}
+Venue Address: ${location}
+Date: ${date}
+Expected Guests: ${guests}
+
+Message:
+${message}
+    `.trim();
+
+    const mailtoLink = `mailto:catering@eggloo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+
+    e.target.reset();
   };
 
   const showModal = () => {
@@ -56,7 +75,7 @@ export default function Contact() {
           *All packages are fully customizable to fit your needs.
         </p>
       </div>
-      <form ref={form} onSubmit={sendEmail} className="mx-auto mt-16 max-w-xl sm:mt-20">
+      <form onSubmit={sendEmail} className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
@@ -207,7 +226,8 @@ export default function Contact() {
         </div>
       </form>
       <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
-        <p>Your inquiry has been submitted, we will get back to you soon</p>
+        <p>Your email app should open with the catering inquiry details.</p>
+        <p>Please send the email from your email app to complete your inquiry.</p>
         <p>Thanks!</p>
       </Modal>
     </div>
