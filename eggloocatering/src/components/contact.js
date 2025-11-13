@@ -74,6 +74,9 @@ ${message}
         <p className="mt-2 text-lg leading-8 text-gray-600 italic">
           *All packages are fully customizable to fit your needs.
         </p>
+        <p className="mt-2 text-lg leading-8 text-gray-600">
+          Fill out the form below to get started, or reach out to us directly at <a href="mailto:events@myeggloo.com" className="text-indigo-600 hover:text-indigo-500">events@myeggloo.com</a>
+        </p>
       </div>
       <form onSubmit={sendEmail} className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
@@ -223,6 +226,14 @@ ${message}
           >
             Let's talk
           </button>
+        </div>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            You can also reach us directly at{' '}
+            <a href="mailto:events@myeggloo.com" className="font-semibold text-indigo-600 hover:text-indigo-500">
+              events@myeggloo.com
+            </a>
+          </p>
         </div>
       </form>
       <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
